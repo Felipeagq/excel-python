@@ -16,12 +16,13 @@ print(workbook.sheetnames.keys())
 # escribimos en la hoja de trabajo
 worksheet1.write('A1','Hola mundo')
 worksheet1.write(2,3,'Escribirmos algo')
+
 for i in range(2,10):
     worksheet1.write(i, 0,i+5)
 
 # Podemos agregar funciones
-worksheet1.write(10,0,"=SUM(A3,A10)")
-worksheet1.write('A11',"=SUM(A3,A10)")
+worksheet1.write(10,0,'=SUM(A3, A10)')
+worksheet1.write('A11',"=SUM(A3, A10)")
 
 # Podemos cambiar el formateo de la celda
 f_cell = workbook.add_format({
@@ -34,7 +35,7 @@ f_cell = workbook.add_format({
 
 # Podemos modificar el ancho de la columna
 worksheet1.set_column(
-    "D:D",  # las columnas que vamos ampliar inicio:final
+    "D:F",  # las columnas que vamos ampliar inicio:final
     # n1,n2  siendo n1 el numero de la columna de inicio y n2 la final
     20      # Amplitud de la columna
 )
@@ -52,7 +53,7 @@ worksheet1.conditional_format(
     }
 )
 # Podemos escribir en una columna
-worksheet1.write_column('B1', [1,2,3,4,5,6,7,8,9])
+worksheet1.write_column('B1', [1,2,3,4,5,500,7,8,9])
 
 # Podemos escribir en filas
 worksheet1.write_row('C2',[1,2,3,4,5])
@@ -94,6 +95,23 @@ fin_col = column_index + len(columnas)
 i = 0
 for col in range(column_index,fin_col):
     worksheet1.write(row_index, col, columnas[col-column_index],header_border)
+
+# tablas
+data =[
+    ['apples',1,2,4,5],
+    ['bananas',1,2,7,8],
+    [12,34,6,6,],
+    [45,6,2,8,0]
+]
+worksheet1.add_table('A14:D18',{
+    'name':'tabla_1',
+    'data':data,
+    'header_row':True,
+    'banded_rows':False,
+    'first_column':True,
+    'style':'Table Style Light 11'
+})
+
 
 
 # cerramos y guardamos automaticamente
