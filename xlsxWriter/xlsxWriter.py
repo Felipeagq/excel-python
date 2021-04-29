@@ -103,16 +103,36 @@ data =[
     [12,34,6,6,],
     [45,6,2,8,0]
 ]
+
+
+currency_format = workbook.add_format({'num_format': '$#,##0'})
+wrap_format     = workbook.add_format({'text_wrap': 1})
+
+
 worksheet1.add_table('A14:D18',{
     'name':'tabla_1',
     'data':data,
     'header_row':True,
     'banded_rows':False,
     'first_column':True,
-    'style':'Table Style Light 11'
+    'total_row':True,
+    'style':'Table Style Light 11',
+    'columns':[
+        # primera columna
+        {'header':'Hola',
+        'header_format':currency_format,
+        'total_string':'total col',
+        #'formula': <colocar una formula para el total
+        #'total_functio': ['average','count_nums','count','max','min','sum','var','std_dev'] funcion de total de columna
+        'format': wrap_format
+        }, 
+
+        {}, # segunda columna
+
+        {'header':'Hola2','total_function':'sum'}] # tercera columna
 })
 
-
+worksheet1.write
 
 # cerramos y guardamos automaticamente
 workbook.close()
