@@ -9,7 +9,8 @@ wb.save('Doc_Excel.xlsx')
 
 # Para cargar una ws de excel ya existente
 wb = load_workbook('Doc_Excel.xlsx')
-wb.create_sheet('Primera_ws',0)
+wb.create_sheet('Primera_ws', # nombre de la hoja
+0) # posición de la hoja
 
 # Escribiremos valores en la primero columna
 for i in range(10):
