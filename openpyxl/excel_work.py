@@ -20,6 +20,9 @@ wb = load_workbook('Doc_Excel.xlsx')
 wb.create_sheet('Primera_ws', # nombre de la hoja
 0) # posición de la hoja
 
+# Cambiarle el estilo a la pestaña de la ventana
+ws = wb['Primera_ws']
+ws.sheet_properties.tabColor = "1072AB"
 
 ###########################
 ### DATOS DE LAS CELDAS ###
@@ -36,10 +39,6 @@ ws.cell(row=6, column=1, value='hola')
 ### GUARDADMOS LOS CAMBIOS EN EL ARCHIVO ###
 wb.save('Doc_Excel.xlsx')
 
-# Cambiarle el estilo a la pestaña de la ventana
-ws = wb['Primera_ws']
-ws.sheet_properties.tabColor = "1072AB"
-
 # Acceder al valor de una celda
 print(wb['Primera_ws']['A6'].value)
 
@@ -52,3 +51,5 @@ print(celdas[5][0].value) # accedemos a cada valor individual
 wb.save('Doc_Excel.xlsx')
 
 os.system('libreoffice Doc_Excel.xlsx')
+
+# python3 openpyxl/excel_work.py
