@@ -175,7 +175,7 @@ ws.row_dimensions.group(16,17, hidden=True)
 ####################
 ## READ-ONLY MODE ##
 ####################
-from openpyxl import load_workbook
+'''from openpyxl import load_workbook
 wb = load_workbook(filename='large_file.xlsx', read_only=True)
 ws = wb['big_data']
 # Reading the data
@@ -183,11 +183,16 @@ for row in ws.rows:
     for cell in row:
         print(cell.value)
 # Close the workbook after reading
-wb.close()
+wb.close()'''
 
-#####################
-## WRITE-ONLY MODE ##
-#####################
+
+# This operation will overwrite existing files without warning.
+wb.save('Doc_Excel.xlsx')
+
+
+#################################################################################
+################################ WRITE-ONLY MODE ################################
+#################################################################################
 from openpyxl import Workbook
 wb2 = Workbook(write_only=True)
 ws2 = wb2.create_sheet()
@@ -196,10 +201,51 @@ for irow in range(100):
     ws2.append(['%d' % i for i in range(200)])
 # save the file
 wb2.save('new_big_file.xlsx') # doctest: +SKIP
+#If you want to have cells with styles or comments then use a
+'''
+Unlike a normal workbook,
+a newly-created write-only workbook does not contain any worksheets;
+a worksheet must be specifically created with the create_sheet() method.
+
+In a write-only workbook,
+rows can only be added with append().
+It is not possible to write (or read) cells at arbitrary locations with cell() or iter_rows().
+
+It is able to export unlimited amount of data (even more than Excel can handle actually),
+while keeping memory usage under 10Mb.
+
+A write-only workbook can only be saved once.
+After that, every attempt to save the workbook or append() to an existing worksheet will raise an openpyxl.
+utils.exceptions.WorkbookAlreadySaved exception.
+
+Everything that appears in the file before the actual cell data must be
+created before cells are added because it must written to the file before then. 
+For example, freeze_panes should be set before cells are added.
+'''
+
+wb = Workbook(write_only = True)
+ws = wb.create_sheet()
+from openpyxl.cell import WriteOnlyCell
+from openpyxl.comments import Comment
+from openpyxl.styles import Font
+cell = WriteOnlyCell(ws, value="hello world")
+cell.font = Font(name='Courier', size=36)
+cell.comment = Comment(text="A comment", author="Author's Name")
+ws.append([cell, 3.14, None])
+wb.save('write_only_file.xlsx')
 
 
-# This operation will overwrite existing files without warning.
-wb.save('Doc_Excel.xlsx')
+
+####################
+## INSERTING ROWS ##
+####################
+ws.insert_rows(7)
+
+####################
+## INSERTING ROWS ##
+####################
+ws.insert_rows(7)
+
 
 os.system('libreoffice Doc_Excel.xlsx')
 
