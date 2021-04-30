@@ -1,4 +1,5 @@
 import os 
+os.system('pip3 install openpyxl')
 from openpyxl import Workbook
 from openpyxl import load_workbook
 
