@@ -59,6 +59,9 @@ for col in ws.iter_cols(min_row=1, max_col=3, max_row=2):
     for cell in col:
         print(cell)
 
+#############################
+### COPIA DE LA WORKSHEET ###
+#############################
 # Crear copias de Worksheet sobre la que estamos trabajando (activa)
 source = wb.active
 target = wb.copy_worksheet(source)
@@ -82,7 +85,9 @@ for row in ws.values:
         print(value)
     print('-')
 print(' ')
-
+#############################
+### VALORES DEL WORKSHEET ###
+#############################
 # iter_rows() e iter_cols() admiten values_only
 for row in ws.iter_rows(min_row=1, max_col=3, max_row=15, values_only=True):
     print(row)
