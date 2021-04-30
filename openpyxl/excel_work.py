@@ -1,4 +1,7 @@
 import os 
+import datetime
+os.chdir(os.getcwd())
+print(os.getcwd())
 os.system('pip3 install openpyxl')
 from openpyxl import Workbook
 from openpyxl import load_workbook
@@ -90,10 +93,60 @@ print(' ')
 ### VALORES DEL WORKSHEET ###
 #############################
 # iter_rows() e iter_cols() admiten values_only
-for row in ws.iter_rows(min_row=1, max_col=3, max_row=15, values_only=True):
+for row in ws.iter_rows(min_row=1, max_col=4, max_row=16, values_only=True):
     print(row)
 
+# imprimir nombres de las hojas
+print(wb.sheetnames)
+['Sheet2', 'New Title', 'Sheet1']
 
+
+##########################
+### SAVING AS A STREAM ###
+##########################
+# If you want to save the file to a stream,
+# e.g. when using a web application such as Pyramid,
+# Flask or Django then you can simply provide a NamedTemporaryFile():
+from tempfile import NamedTemporaryFile
+from openpyxl import Workbook
+wb2 = Workbook()
+with NamedTemporaryFile() as tmp:
+    wb2.save(tmp.name)
+    tmp.seek(0)
+    stream = tmp.read()
+
+wb.save('Doc_Excel.xlsx')
+
+# You can specify the attribute template=True,
+# to save a workbook as a template:
+wb = load_workbook('Doc_Excel.xlsx')
+wb.template = True
+wb.save('document_template.xltx')
+
+# or set this attribute to False (default), to save as a document:
+'''wb = load_workbook('document_template.xltx')
+wb.template = False
+wb.save('document.xlsx', as_template=False)'''
+
+
+
+#####################
+## DATETIME FORMAT ##
+#####################
+# set date using a Python datetime
+ws = wb.active
+ws['B3'] = datetime.datetime(2010, 7, 21)
+print(ws['A1'].number_format)
+
+
+###################
+## USING FORMULA ##
+###################
+# add a simple formula
+ws["B4"] = "=SUM(A2, A4)"
+
+
+# This operation will overwrite existing files without warning.
 wb.save('Doc_Excel.xlsx')
 
 os.system('libreoffice Doc_Excel.xlsx')
