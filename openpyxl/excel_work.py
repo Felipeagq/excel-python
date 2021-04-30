@@ -46,7 +46,47 @@ print(wb['Primera_ws']['A6'].value)
 celdas = ws['A2':'A7'] # guardamos el rengo de celdas
 # se guarda como una matrix
 print(celdas[5][0].value) # accedemos a cada valor individual 
+# print(celdas[5]) --> (<Cell 'Primera_ws'.A7>,)
+# print(celdas[5][0]) <Cell 'Primera_ws'.A7>
 # de nuestra matrix de celdas
+
+# Tambien podemos acceder a varios valores de rows
+for row in ws.iter_rows(min_row=1,max_col=3,max_row=2):
+    for cell in row: # interamos las celdas de cada ro2
+        print(cell)
+print(' ')
+for col in ws.iter_cols(min_row=1, max_col=3, max_row=2):
+    for cell in col:
+        print(cell)
+
+# Crear copias de Worksheet sobre la que estamos trabajando (activa)
+source = wb.active
+target = wb.copy_worksheet(source)
+
+print(' ')
+# Para iterar sobre todas las rows y cols 
+ws['C11'] = 'Fin de las celdas'
+print(tuple(ws.rows),end='\n\n')
+ws['D15'] = 'Fs'
+# para imprimir el valor de cada celda
+for col in tuple(ws.rows):
+    for cell in col:
+        print(cell.value)
+    print('-')
+
+print(' ')
+
+# Otra forma de visualizar solo valores por row
+for row in ws.values:
+    for value in row:
+        print(value)
+    print('-')
+print(' ')
+
+# iter_rows() e iter_cols() admiten values_only
+for row in ws.iter_rows(min_row=1, max_col=3, max_row=15, values_only=True):
+    print(row)
+
 
 wb.save('Doc_Excel.xlsx')
 
