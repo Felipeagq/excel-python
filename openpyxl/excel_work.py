@@ -146,6 +146,58 @@ print(ws['A1'].number_format)
 ws["B4"] = "=SUM(A2, A4)"
 
 
+###########################
+## MERGE / UNMERGE CELLS ##
+###########################
+ws.merge_cells('C11:D11')
+# ws.unmerge_cells('C11:D11')
+# or equivalently
+#ws.merge_cells(start_row=2, start_column=1, end_row=4, end_column=4)
+#ws.unmerge_cells(start_row=2, start_column=1, end_row=4, end_column=4)
+
+
+########################
+## INSERTING AN IMAGE ##
+########################
+from openpyxl.drawing.image import Image
+ws['B5'] = 'You should see three logos below'
+img = Image('logo.png')
+ws.add_image(img, 'B6')
+
+
+####################
+## FOLD (OUTLINE) ##
+####################
+ws.column_dimensions.group('E','F', hidden=True)
+ws.row_dimensions.group(16,17, hidden=True)
+
+
+####################
+## READ-ONLY MODE ##
+####################
+from openpyxl import load_workbook
+wb = load_workbook(filename='large_file.xlsx', read_only=True)
+ws = wb['big_data']
+# Reading the data
+for row in ws.rows:
+    for cell in row:
+        print(cell.value)
+# Close the workbook after reading
+wb.close()
+
+#####################
+## WRITE-ONLY MODE ##
+#####################
+from openpyxl import Workbook
+wb2 = Workbook(write_only=True)
+ws2 = wb2.create_sheet()
+# now we'll fill it with 100 rows x 200 columns
+for irow in range(100):
+    ws2.append(['%d' % i for i in range(200)])
+# save the file
+wb2.save('new_big_file.xlsx') # doctest: +SKIP
+
+
 # This operation will overwrite existing files without warning.
 wb.save('Doc_Excel.xlsx')
 
