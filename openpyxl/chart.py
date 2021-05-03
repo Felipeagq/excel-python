@@ -593,7 +593,7 @@ chart2.series.append(series2)
 
 ws12.add_chart(chart2, "E17")
 
-wb.save("doughnut.xlsx")
+
 
 
 
@@ -639,9 +639,6 @@ chart.title = "Garden Centre Sales"
 chart.y_axis.delete = True
 
 ws13.add_chart(chart, "A17")
-
-
-
 
 
 
@@ -818,6 +815,104 @@ c4.wireframe = True
 c4.title = "3D Wireframe"
 
 ws16.add_chart(c4, "G29")
+
+
+###########################
+## Axis Limits and Scale ##
+###########################
+from openpyxl import Workbook
+from openpyxl.chart import (
+    ScatterChart,
+    Reference,
+    Series,
+)
+
+
+ws17 = wb.create_sheet(title='Axis Limits and Scale')
+
+ws.append(['X', '1/X'])
+for x in range(-10, 11):
+    if x:
+        ws17.append([x, 1.0 / x])
+
+chart1 = ScatterChart()
+chart1.title = "Full Axes"
+chart1.x_axis.title = 'x'
+chart1.y_axis.title = '1/x'
+chart1.legend = None
+
+# Escalado de ejes
+chart2 = ScatterChart()
+chart2.title = "Clipped Axes"
+chart2.x_axis.title = 'x'
+chart2.y_axis.title = '1/x'
+chart2.legend = None
+
+chart2.x_axis.scaling.min = 0
+chart2.y_axis.scaling.min = 0
+chart2.x_axis.scaling.max = 11
+chart2.y_axis.scaling.max = 1.5
+
+x = Reference(ws17, min_col=1, min_row=2, max_row=22)
+y = Reference(ws17, min_col=2, min_row=2, max_row=22)
+s = Series(y, xvalues=x)
+chart1.append(s)
+chart2.append(s)
+
+ws17.add_chart(chart1, "C1")
+ws17.add_chart(chart2, "C15")
+
+
+##########################
+## Adding a second axis ##
+##########################
+from openpyxl import Workbook
+from openpyxl.chart import (
+    LineChart,
+    BarChart,
+    Reference,
+    Series,
+)
+
+
+ws18 = wb.create_sheet(title='Adding a second axis')
+
+rows = [
+    ['Aliens', 2, 3, 4, 5, 6, 7],
+    ['Humans', 10, 40, 50, 20, 10, 50],
+]
+
+for row in rows:
+    ws18.append(row)
+
+c1 = BarChart()
+v1 = Reference(ws18, min_col=1, min_row=1, max_col=7)
+c1.add_data(v1, titles_from_data=True, from_rows=True)
+
+c1.x_axis.title = 'Days'
+c1.y_axis.title = 'Aliens'
+c1.y_axis.majorGridlines = None
+c1.title = 'Survey results'
+
+
+# Create a second chart
+c2 = LineChart()
+v2 = Reference(ws18, min_col=1, min_row=2, max_col=7)
+c2.add_data(v2, titles_from_data=True, from_rows=True)
+c2.y_axis.axId = 200
+c2.y_axis.title = "Humans"
+
+# Display y-axis of the second chart on the right by setting it to cross the x-axis at its maximum
+c1.y_axis.crosses = "max"
+c1 += c2
+
+ws18.add_chart(c1, "D4")
+
+
+
+
+
+
 
 
 
