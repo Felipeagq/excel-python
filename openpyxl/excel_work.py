@@ -257,6 +257,24 @@ ws.move_range("A4:B4", rows=0, cols=2)
 # movemos ese rango de celdas 0 rows y dos columnas hacia la derecha
 
 
+#######################
+## DATAFRAME TO ROWS ##
+#######################
+'''from openpyxl.utils.dataframe import dataframe_to_rows
+wb = Workbook()
+ws = wb.active
+
+for r in dataframe_to_rows(df, index=True, header=True):
+    ws.append(r)'''
+
+
+############################
+## WORKSHEET TO DATAFRAME ##
+############################
+'''df = DataFrame(ws.values)'''
+
+
+
 
 wb.save('Doc_Excel.xlsx')
 os.system('libreoffice Doc_Excel.xlsx')
