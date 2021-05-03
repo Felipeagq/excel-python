@@ -918,8 +918,5 @@ ws18.add_chart(c1, "D4")
 
 
 
-
-
-
 wb.save("SampleChart.xlsx")
 os.system('libreoffice SampleChart.xlsx')
