@@ -162,7 +162,7 @@ ws.merge_cells('C11:D11')
 from openpyxl.drawing.image import Image
 ws['B5'] = 'You should see three logos below'
 img = Image('logo.png')
-ws.add_image(img, 'B6')
+ws.add_image(img, 'H6')
 
 
 ####################
@@ -187,13 +187,13 @@ wb.close()'''
 
 
 # This operation will overwrite existing files without warning.
-wb.save('Doc_Excel.xlsx')
+
 
 
 #################################################################################
 ################################ WRITE-ONLY MODE ################################
 #################################################################################
-from openpyxl import Workbook
+'''from openpyxl import Workbook
 wb2 = Workbook(write_only=True)
 ws2 = wb2.create_sheet()
 # now we'll fill it with 100 rows x 200 columns
@@ -201,7 +201,7 @@ for irow in range(100):
     ws2.append(['%d' % i for i in range(200)])
 # save the file
 wb2.save('new_big_file.xlsx') # doctest: +SKIP
-#If you want to have cells with styles or comments then use a
+#If you want to have cells with styles or comments then use a'''
 '''
 Unlike a normal workbook,
 a newly-created write-only workbook does not contain any worksheets;
@@ -223,16 +223,16 @@ created before cells are added because it must written to the file before then.
 For example, freeze_panes should be set before cells are added.
 '''
 
-wb = Workbook(write_only = True)
-ws = wb.create_sheet()
+'''wb = Workbook(write_only = True)
+ws3 = wb.create_sheet()
 from openpyxl.cell import WriteOnlyCell
 from openpyxl.comments import Comment
 from openpyxl.styles import Font
-cell = WriteOnlyCell(ws, value="hello world")
+cell = WriteOnlyCell(ws3, value="hello world")
 cell.font = Font(name='Courier', size=36)
 cell.comment = Comment(text="A comment", author="Author's Name")
-ws.append([cell, 3.14, None])
-wb.save('write_only_file.xlsx')
+ws3.append([cell, 3.14, None])
+wb.save('write_only_file.xlsx')'''
 
 
 
@@ -241,12 +241,24 @@ wb.save('write_only_file.xlsx')
 ####################
 ws.insert_rows(7)
 
-####################
-## INSERTING ROWS ##
-####################
-ws.insert_rows(7)
 
 
+###############################
+## DELETING ROWS AND COLUMNS ##
+###############################
+ws.delete_cols(6,3)
+ws.delete_rows(10)
+
+
+############################
+## MOVING RANGES OF CELLS ##
+############################
+ws.move_range("A4:B4", rows=0, cols=2)
+# movemos ese rango de celdas 0 rows y dos columnas hacia la derecha
+
+
+
+wb.save('Doc_Excel.xlsx')
 os.system('libreoffice Doc_Excel.xlsx')
 
 # python3 openpyxl/excel_work.py
